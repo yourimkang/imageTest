@@ -10,19 +10,41 @@ import android.view.View;
  * Created by appcreator16 on 2016. 9. 26..
  */
 public class MyImage extends View{
-    public MyImage(Context context) {
+    int choose=MainActivity.ORIGINAL;
+    Bitmap picture;
+
+    MyImage(Context context) {
         super(context);
+        picture= BitmapFactory.decodeResource(getResources(), R.drawable.puppy);
+    }
+    public void setChoose(int choose)
+    {
+        this.choose=choose;
     }
 
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
-        Bitmap picture= BitmapFactory.decodeResource(getResources(), R.drawable.puppy);
+
         float cx=getWidth()/2.0f;
         float cy=getHeight()/2.0f;
         float x=(getWidth()-picture.getWidth())/2.0f;
         float y=(getHeight()-picture.getHeight())/2.0f;
-        //canvas.rotate(45,cx,cy); 회전이동
-        canvas.translate(-150,200);
+        switch (choose)
+        {
+            case MainActivity.ROTATE:
+                canvas.rotate(45,cx,cy); //회전
+                break;
+            case MainActivity.TRANSLATE:
+                canvas.translate(-150,200); //이동
+                break;
+            case MainActivity.SCALE:
+                canvas.scale(1.5f,1.5f,cx,cy); //크기
+                break;
+            case MainActivity.SKEW:
+                canvas.skew(0.4f,0.4f); // 비틀기
+                break;
+        }
         canvas.drawBitmap(picture,x,y,null);
+        //picture.recycle();
     }
 }
